@@ -1,0 +1,37 @@
+---
+import { brand, shops, type Shop } from '../data/site';
+interface Props { shop?: Shop }
+const { shop } = Astro.props;
+const headingId = shop ? `take-home-${shop.slug}` : 'take-home-title';
+const stores = shop ? [shop] : shops;
+---
+<section class="take-home-section" id="take-home" aria-labelledby={headingId}>
+  <div class="section-wrap">
+    <div class="section-heading" data-reveal><div><span class="eyebrow">TAKE HOME & DELIVERY</span><h2 id={headingId}>源流の味を、<br class="mobile-break" />ご自宅でも。</h2></div><p>冷凍商品・テイクアウト・デリバリー</p></div>
+    <div class="take-home-list">
+      <article class="take-home-item" data-reveal>
+        <span class="take-home-number" aria-hidden="true">01</span>
+        <h3>冷凍商品の販売</h3>
+        <div class="take-home-description">
+          {stores.map(store => <div class="frozen-shop-info">
+            {!shop && <h4>{store.name}</h4>}
+            <p>{store.frozenSales.location}にて販売しています。</p>
+            <ul>{store.frozenSales.products.map(product => <li>{product}</li>)}</ul>
+          </div>)}
+        </div>
+      </article>
+      <article class="take-home-item" data-reveal>
+        <span class="take-home-number" aria-hidden="true">02</span>
+        <h3>テイクアウト</h3>
+        <div class="take-home-description"><p>お持ち帰りにも対応しています。<br />{brand.takeout}</p>
+          {(!shop || shop.takeoutContainerNote) && <p class="take-home-note">{shop ? shop.takeoutContainerNote : shops[0].takeoutContainerNote}</p>}
+        </div>
+      </article>
+      <article class="take-home-item" data-reveal>
+        <span class="take-home-number" aria-hidden="true">03</span>
+        <h3>デリバリー</h3>
+        <div class="take-home-description"><p>{brand.delivery}</p><span class="delivery-service">Uber Eats</span></div>
+      </article>
+    </div>
+  </div>
+</section>

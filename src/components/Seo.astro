@@ -54,6 +54,7 @@ if (shop && realShopPhoto) {
       streetAddress: `${shop.address.replace(`東京都${shop.locality}`, '')} ${shop.building}`,
     },
     servesCuisine: ['ラーメン'],
+    paymentAccepted: ['現金', 'PayPay'],
     openingHoursSpecification: [{
       '@type': 'OpeningHoursSpecification',
       dayOfWeek: shop.openingDays.map(day => `https://schema.org/${day}`), opens, closes,

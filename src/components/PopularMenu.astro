@@ -1,0 +1,40 @@
+---
+import { Image } from 'astro:assets';
+import { images } from '../data/images';
+import { popularMenus, yen, type Shop, type PopularDishImage } from '../data/site';
+interface Props { shop: Shop }
+const { shop } = Astro.props;
+const headingId = `popular-${shop.slug}`;
+const dishDetails: Record<PopularDishImage, { label: string; description: string; note?: string }> = {
+  chashu: { label: 'CHASHU RAMEN', description: 'チャーシューを楽しむなら、この一杯。しっかり食べたい日に。' },
+  regular: { label: 'RAMEN', description: '受け継がれる、塩トンコツ醤油。いつもの一杯を、今日も。' },
+  special: { label: 'SPECIAL RAMEN', description: '源流の看板メニュー。はじめての方にもおすすめの一杯です。' },
+  negi: { label: 'NEGI RAMEN', description: 'ねぎの風味を楽しむ一杯。いつものラーメンに、ひと味違うおいしさを。' },
+  vegetable: { label: 'VEGETABLE RAMEN', description: '野菜もラーメンも楽しみたい日に。食べごたえのある一杯をどうぞ。' },
+  plainTsukemen: { label: 'TSUKEMEN', description: 'あつ盛・冷や盛、お好みで。麺をつけて味わう、もうひとつの楽しみ。', note: '画像は麺の器のイメージです。つけ汁は別添えです。' },
+};
+---
+<section class="popular-menu" aria-labelledby={headingId}>
+  <div class="popular-menu-heading" data-reveal>
+    <div><span class="eyebrow">POPULAR MENU / TOP 5</span><h3 id={headingId}><small>{shop.name}の人気メニュー</small>今日、食べたい一杯。</h3></div>
+    <p>いつもの一杯も、はじめての一杯も。<br />写真から、お気に入りを見つけてください。</p>
+  </div>
+  <ol class="popular-menu-list">
+    {popularMenus[shop.slug].map((item, index) => {
+      const detail = dishDetails[item.imageKey];
+      return <li class:list={['popular-dish', index === 0 && 'is-first']} data-reveal>
+        <div class="popular-dish-visual">
+          <span class="popular-rank"><span aria-hidden="true">NO.</span><span class="sr-only">第</span><strong>{String(index + 1).padStart(2, '0')}</strong><span class="sr-only">位</span></span>
+          <Image src={images[item.imageKey]} alt={`${item.name}の商品イメージ`} widths={[480, 760, 1100]} sizes={index === 0 ? '(max-width: 680px) 100vw, 60vw' : '(max-width: 680px) 100vw, 50vw'} format="webp" loading="lazy" />
+        </div>
+        <div class="popular-dish-info">
+          <span class="eyebrow">{detail.label}</span>
+          <div class="popular-dish-title"><h4>{item.name}</h4><p class="popular-dish-price"><small>並盛</small>{yen(item.price)}</p></div>
+          <p class="popular-dish-description">{detail.description}</p>
+          {detail.note && <p class="popular-dish-note">{detail.note}</p>}
+        </div>
+      </li>;
+    })}
+  </ol>
+  <p class="generated-note">※料理ビジュアルは、実商品写真を参考に生成したイメージです。</p>
+</section>

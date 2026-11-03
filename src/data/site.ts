@@ -4,6 +4,9 @@ export const brand = {
   instagramHandle: '@elevenfoods_genryu',
   parking: '提携駐車場はございません。お近くの有料駐車場をご利用ください。',
   lunch: { hours: '11:00〜15:00', title: '平日限定 麺増量無料', note: '平日のランチに、いつもの一杯をたっぷりと。' },
+  paymentMethods: '現金・PayPay等',
+  takeout: '鍋やお持ち帰り用の容器をご持参ください。',
+  delivery: 'Uber Eatsでのデリバリーにも対応しています。',
 };
 
 export const shops = [
@@ -14,7 +17,13 @@ export const shops = [
     hours: '9:00〜17:00', lastOrder: '16:30', closed: 'なし',
     openingDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
     access: ['大鳥居駅より徒歩約10分'],
-    seats: '21席（カウンター9席）',
+    seats: '23席（カウンター11席・4名掛けテーブル3卓）',
+    privateRoom: 'なし', privateHire: '対応しておりません',
+    frozenSales: {
+      location: '店頭入口の冷凍自販機',
+      products: ['冷凍ラーメン', '冷凍スープガツ', '冷凍スープチャーシュー'],
+    },
+    takeoutContainerNote: '西糀谷店では、有料の器もご用意しています。',
     map: 'https://maps.app.goo.gl/xd5E81rwTem2WnUo8?g_st=ic',
     mapQuery: 'イレブンフーズ源流 西糀谷 東京都大田区西糀谷2-26-4',
     openingYear: '2003',
@@ -26,7 +35,10 @@ export const shops = [
     hours: '8:00〜16:00', lastOrder: '15:00', closed: '月曜日・火曜日',
     openingDays: ['Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
     access: ['新馬場駅より徒歩約4分', '青物横丁駅より徒歩約9分'],
-    seats: '15席（カウンター9席・テーブル6席）',
+    seats: '17席（カウンター9席・4名掛けテーブル2卓）',
+    privateRoom: 'なし', privateHire: '対応しておりません',
+    frozenSales: { location: '店内カウンター', products: ['冷凍ラーメン'] },
+    takeoutContainerNote: '',
     map: 'https://maps.app.goo.gl/63wEyZ1MT4ZeDXnR8?g_st=ic',
     mapQuery: 'イレブンフーズ源流 南品川店 東京都品川区南品川2-15-3',
     openingYear: '2014',
@@ -71,6 +83,28 @@ export const featuredPrices = {
   regular: menuGroups[0].items[0].prices[0],
   vegetable: menuGroups[1].items[0].prices[0],
   tsukemen: menuGroups[2].items[1].prices[0],
+  chashu: menuGroups[0].items[2].prices[0],
+  negi: menuGroups[1].items[2].prices[0],
+  plainTsukemen: menuGroups[2].items[0].prices[0],
+};
+
+// Rankings were supplied by the client; menu prices share the full menu data.
+export type PopularDishImage = 'chashu' | 'regular' | 'special' | 'negi' | 'vegetable' | 'plainTsukemen';
+export const popularMenus: Record<Shop['slug'], { name: string; price: number; imageKey: PopularDishImage }[]> = {
+  nishikojiya: [
+    { name: 'チャーシューメン', price: featuredPrices.chashu, imageKey: 'chashu' },
+    { name: 'ラーメン', price: featuredPrices.regular, imageKey: 'regular' },
+    { name: '特製ラーメン', price: featuredPrices.special, imageKey: 'special' },
+    { name: 'ネギラーメン', price: featuredPrices.negi, imageKey: 'negi' },
+    { name: '野菜ラーメン', price: featuredPrices.vegetable, imageKey: 'vegetable' },
+  ],
+  minamishinagawa: [
+    { name: 'チャーシューメン', price: featuredPrices.chashu, imageKey: 'chashu' },
+    { name: 'ラーメン', price: featuredPrices.regular, imageKey: 'regular' },
+    { name: '特製ラーメン', price: featuredPrices.special, imageKey: 'special' },
+    { name: '野菜ラーメン', price: featuredPrices.vegetable, imageKey: 'vegetable' },
+    { name: 'つけ麺', price: featuredPrices.plainTsukemen, imageKey: 'plainTsukemen' },
+  ],
 };
 
 export const yen = (value: number) => `${value.toLocaleString('ja-JP')}円`;

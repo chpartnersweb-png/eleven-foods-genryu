@@ -4,6 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from '../components/Icon.astro';
 import LunchBanner from '../components/LunchBanner.astro';
 import MenuTable from '../components/MenuTable.astro';
+import TakeHome from '../components/TakeHome.astro';
 import { images, shopImage } from '../data/images';
 import { shops, yen, featuredPrices } from '../data/site';
 import { seo } from '../config/seo.mjs';
@@ -48,6 +49,7 @@ const dishes = [
     <Image class="history-logo" src={images.logo} width={230} height={230} alt="" loading="lazy" />
   </div></section>
   <section class="scene-section" aria-labelledby="scene-title"><div class="scene-photo"><Image src={images.nishikojiyaInterior} alt="西糀谷店の木のカウンターと赤い椅子" widths={[600, 1000, 1400]} sizes="(max-width: 680px) 100vw, 58vw" format="webp" loading="lazy" /></div><div class="scene-copy" data-reveal><span class="eyebrow">YOUR EVERYDAY RAMEN</span><h2 id="scene-title">いつもの街で、<br />お腹も、心も。</h2><p>ひとりの時間にも。家族のお食事にも。<br />気取らず、気軽に、源流へ。</p><ul><li>ひとりでふらりと</li><li>さっと食べたい日に</li><li>しっかり食べたい日に</li><li>家族のお食事に</li></ul><p class="scene-photo-caption">写真：西糀谷店</p></div></section>
+  <TakeHome />
   <section class="shops-section section-wrap" id="shops" aria-labelledby="shops-title"><div class="section-heading" data-reveal><div><span class="eyebrow">OUR SHOPS</span><h2 id="shops-title">お近くの源流で、<br class="mobile-break" />お待ちしています。</h2></div><p>東京・西糀谷／南品川</p></div>
     <div class="shop-list">{shops.map(shop => <article class={`shop-entry shop-entry-${shop.slug}`} data-reveal><a class="shop-entry-photo" href={`/shops/${shop.slug}/`} aria-label={`${shop.name}の店舗情報を見る`}><Image src={shopImage(shop.slug)} alt={shop.slug === 'nishikojiya' ? '西糀谷店の外観' : '南品川店の店内'} widths={[540, 800, 1100]} sizes="(max-width: 680px) 100vw, 50vw" format="webp" loading="lazy" /><span>{shop.slug === 'nishikojiya' ? '西糀谷店 外観' : '南品川店 店内'}</span></a><div class="shop-entry-info"><span class="eyebrow">{shop.number} / {shop.english}</span><a class="shop-name-link" href={`/shops/${shop.slug}/`}><h3>{shop.name}</h3><span class="round-arrow"><Icon name="arrow" /></span></a><p class="shop-access">{shop.access.join(' ／ ')}</p><dl><div><dt>営業時間</dt><dd>{shop.hours}<small>（L.O. {shop.lastOrder}）</small></dd></div><div><dt>定休日</dt><dd>{shop.closed}</dd></div></dl><a class="text-link" href={`/shops/${shop.slug}/`}>店舗情報・アクセス<Icon name="arrow" /></a></div></article>)}</div>
     <p class="parking-note"><Icon name="pin" />両店舗とも提携駐車場はございません。お近くの有料駐車場をご利用ください。</p>

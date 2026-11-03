@@ -5,7 +5,9 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Icon from '../../components/Icon.astro';
 import LunchBanner from '../../components/LunchBanner.astro';
 import MenuTable from '../../components/MenuTable.astro';
-import { shops, brand, featuredPrices, yen, type Shop } from '../../data/site';
+import PopularMenu from '../../components/PopularMenu.astro';
+import TakeHome from '../../components/TakeHome.astro';
+import { shops, brand, type Shop } from '../../data/site';
 import { images, shopImage } from '../../data/images';
 export const getStaticPaths = (() => shops.map(shop => ({ params: { slug: shop.slug }, props: { shop } }))) satisfies GetStaticPaths;
 interface Props { shop: Shop }
@@ -16,14 +18,20 @@ const interior = isNishikojiya ? images.nishikojiyaInterior : images.minamishina
 const pageTitle = isNishikojiya
   ? 'イレブンフーズ源流 西糀谷店｜大鳥居のラーメン・お品書き'
   : 'イレブンフーズ源流 南品川店｜新馬場・青物横丁のラーメン';
-const pageDescription = `${brand.name} ${shop.name}。${shop.access.join('、')}。秘伝の塩トンコツ醤油ラーメンのお品書き・アクセスをご案内。営業時間${shop.hours}、L.O. ${shop.lastOrder}。定休日：${shop.closed}。平日${brand.lunch.hours}は麺増量無料。`;
+const pageDescription = `${brand.name} ${shop.name}。${shop.access.join('、')}。秘伝の塩トンコツ醤油ラーメンのお品書き・アクセスをご案内。営業時間${shop.hours}、L.O. ${shop.lastOrder}。定休日：${shop.closed}。平日${brand.lunch.hours}は麺増量無料。テイクアウト・Uber Eats対応。`;
 ---
 <BaseLayout title={pageTitle} description={pageDescription} shop={shop}>
   <section class="store-hero" aria-labelledby="store-title"><div class="store-hero-photo"><Image src={shopImage(shop.slug)} alt={isNishikojiya ? `${shop.name}の入口と看板` : `${shop.name}のカウンターと赤い椅子`} widths={[640, 1000, 1500]} sizes="100vw" format="webp" loading="eager" fetchpriority="high" /></div><div class="store-hero-overlay"></div><div class="store-hero-content section-wrap"><p class="breadcrumb"><a href="/">ホーム</a><span>/</span><span>{shop.name}</span></p><span class="eyebrow">GENRYU / {shop.english}</span><h1 id="store-title"><small>イレブンフーズ源流</small>{shop.name}</h1><p>{shop.access.join(' ／ ')}</p></div><span class="store-hero-caption">{shop.name} {isNishikojiya ? '外観' : '店内'}</span></section>
   <div class="store-facts-band"><div><span>営業時間</span><strong>{shop.hours}</strong><small>L.O. {shop.lastOrder}</small></div><div><span>定休日</span><strong>{shop.closed}</strong></div><a href={shop.map} target="_blank" rel="noopener noreferrer"><Icon name="pin" />Googleマップで見る<Icon name="arrow" /></a></div>
   <section class="store-intro section-wrap" aria-labelledby="store-intro-title"><div data-reveal><span class="eyebrow">WELCOME TO {shop.english}</span><h2 id="store-intro-title">今日の一杯は、<br />源流で。</h2></div><div data-reveal><p>初代から50年以上受け継がれてきた、<br />秘伝の「塩トンコツ醤油」。</p><p>ひとりでふらりと、家族と一緒に。<br />{shop.name}で、お待ちしています。</p><a class="text-link" href="/#history">源流の歩みを読む<Icon name="arrow" /></a></div></section>
-  <section class="store-menu-section section-wrap" id="store-menu" aria-labelledby="store-menu-title"><div class="section-heading" data-reveal><div><span class="eyebrow">MENU</span><h2 id="store-menu-title">お品書き</h2></div><p>西糀谷店・南品川店 共通メニュー</p></div><div class="store-signature" data-reveal><div class="store-signature-image"><Image src={images.special} alt="特製ラーメンの商品イメージ" widths={[480, 800, 1100]} sizes="(max-width: 680px) 100vw, 60vw" format="webp" loading="lazy" /></div><div class="store-signature-copy"><span class="eyebrow">OUR SIGNATURE</span><h3>特製ラーメン</h3><p class="dish-price"><small>並盛</small>{yen(featuredPrices.special)}</p><p>源流の看板メニュー。<br />迷ったら、まずはこちらを。</p></div></div><p class="generated-note">※料理ビジュアルは実商品写真をもとにしたイメージです。</p><LunchBanner /><MenuTable id="store-menu-list" expanded={true} /></section>
+  <section class="store-menu-section section-wrap" id="store-menu" aria-labelledby="store-menu-title">
+    <div class="section-heading" data-reveal><div><span class="eyebrow">MENU</span><h2 id="store-menu-title">お品書き</h2></div><p>西糀谷店・南品川店 共通メニュー</p></div>
+    <PopularMenu shop={shop} />
+    <LunchBanner />
+    <MenuTable id="store-menu-list" expanded={true} />
+  </section>
   <section class="store-interior-section" aria-labelledby="interior-title"><div class="store-interior-heading section-wrap" data-reveal><span class="eyebrow">INSIDE THE SHOP</span><h2 id="interior-title">気軽に、一杯。</h2><p>おひとりでも、ご家族でも。<br />{shop.name}の店内をご紹介します。</p></div><figure class:list={['store-interior-photo', isNishikojiya && 'is-portrait']} data-reveal><Image src={interior} alt={`${shop.name}の実際の店内。木のカウンターと赤い椅子`} widths={[640, 960, 1400]} sizes="(max-width: 680px) 100vw, 72vw" format="webp" loading="lazy" /><figcaption>{shop.name} 店内</figcaption></figure></section>
+  <TakeHome shop={shop} />
   <section class="access-section section-wrap" id="access" aria-labelledby="access-title"><div class="section-heading" data-reveal><div><span class="eyebrow">INFORMATION & ACCESS</span><h2 id="access-title">店舗情報・アクセス</h2></div></div><div class="access-grid">
     <div class="store-information" data-reveal><h3>イレブンフーズ源流 {shop.name}</h3><dl>
       <div><dt>住所</dt><dd>〒{shop.postalCode}<br />{shop.address}<br />{shop.building}</dd></div>
@@ -32,8 +40,11 @@ const pageDescription = `${brand.name} ${shop.name}。${shop.access.join('、')}
       <div><dt>営業時間</dt><dd>{shop.hours}<br /><span class="subtle">ラストオーダー {shop.lastOrder}</span></dd></div>
       <div><dt>定休日</dt><dd>{shop.closed}</dd></div>
       <div><dt>席数</dt><dd>{shop.seats}</dd></div>
-      <div><dt>個室・貸切</dt><dd>個室なし・貸切不可</dd></div>
-      <div><dt>お支払い</dt><dd>QRコード決済可<br /><span class="subtle">クレジットカード・電子マネーはご利用いただけません。</span></dd></div>
+      <div><dt>個室</dt><dd>{shop.privateRoom}</dd></div>
+      <div><dt>貸切</dt><dd>{shop.privateHire}</dd></div>
+      <div><dt>お支払い</dt><dd>{brand.paymentMethods}</dd></div>
+      <div><dt>テイクアウト</dt><dd>対応しています。<br />{brand.takeout}{shop.takeoutContainerNote && <span class="block">{shop.takeoutContainerNote}</span>}</dd></div>
+      <div><dt>デリバリー</dt><dd>Uber Eats対応</dd></div>
       <div><dt>喫煙</dt><dd>全席禁煙</dd></div>
       <div><dt>駐車場</dt><dd>{brand.parking}</dd></div>
     </dl></div>

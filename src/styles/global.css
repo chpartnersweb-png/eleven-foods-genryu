@@ -303,16 +303,9 @@ td,thead th:not(:first-child) { text-align: right; font-variant-numeric: tabular
 .store-intro p+p { margin-top: 22px; }
 .store-intro .text-link { margin-top: 22px; }
 .store-menu-section { padding-block: 65px 110px; border-top: 1px solid var(--line); }
-.store-signature { display: grid; grid-template-columns: 1.35fr 1fr; align-items: center; background: #e7dcc9; position: relative; margin-top: 65px; }
-.store-signature-image { margin: -50px -30px -25px -45px; }
-.store-signature-image img { width: 100%; }
-.store-signature-copy { padding: 35px; }
-.store-signature-copy .eyebrow { color: var(--red); margin-bottom: 15px; }
-.store-signature-copy h3 { font-size: clamp(30px,3.2vw,45px); margin-bottom: 15px; }
-.store-signature-copy>p:last-child { font-size: 13px; margin-top: 20px; }
 .store-interior-section { position: relative; padding: 90px 0 100px; background: var(--red); color: var(--paper-light); display: grid; grid-template-columns: 40% 60%; align-items: center; }
-.store-interior-heading { width: auto; margin-left: max(56px,calc((100vw - 1200px)/2)); margin-right: 45px; }
-.store-interior-heading h2 { font-size: clamp(35px,4vw,55px); }
+.store-interior-heading { width: auto; min-width: 0; margin-left: clamp(22px,4vw,80px); margin-right: 45px; }
+.store-interior-heading h2 { font-size: clamp(26px,3.2vw,44px); letter-spacing: .03em; white-space: nowrap; }
 .store-interior-heading p { margin-top: 30px; font-size: 13px; }
 .store-interior-photo { position: relative; margin-right: 6%; }
 .store-interior-photo img { width: 100%; aspect-ratio: 1.3; object-fit: cover; }
@@ -335,6 +328,96 @@ td,thead th:not(:first-child) { text-align: right; font-variant-numeric: tabular
 .other-shop-section>a>span { font-size: 12px; }
 .other-shop-section strong { font: 600 30px/1.5 var(--serif); }
 .other-shop-section svg { margin-left: auto; width: 35px; height: 35px; }
+
+.popular-menu { margin-block: 30px 65px; border-top: 1px solid var(--line); padding-top: 35px; }
+.popular-menu-heading { display: flex; justify-content: space-between; align-items: end; gap: 30px; margin-bottom: 36px; }
+.popular-menu-heading .eyebrow { color: var(--red); margin-bottom: 13px; }
+.popular-menu-heading h3 { font-size: clamp(26px,2.8vw,37px); line-height: 1.65; letter-spacing: .06em; }
+.popular-menu-heading h3 small { display: block; font: 500 12px/1.8 var(--sans); letter-spacing: .08em; margin-bottom: 6px; }
+.popular-menu-heading>p { color: var(--muted); font-size: 11px; line-height: 2; }
+.popular-menu-list { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); column-gap: 48px; row-gap: 36px; }
+.popular-dish { min-width: 0; padding-bottom: 30px; border-bottom: 1px solid var(--line); }
+.popular-dish-visual { position: relative; isolation: isolate; aspect-ratio: 3/2; display: grid; align-items: center; }
+.popular-dish-visual::before { content: ''; position: absolute; z-index: -1; width: 78%; aspect-ratio: 1.2; border-radius: 50%; background: #e9dfcd; inset: 5% 11% auto; }
+.popular-dish-visual img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 12px 10px #48372414); }
+.popular-rank { position: absolute; z-index: 1; top: 10px; left: 0; color: var(--red); text-align: center; font-family: var(--serif); }
+.popular-rank>span[aria-hidden] { display: block; font: 500 9px/1.4 var(--sans); letter-spacing: .15em; }
+.popular-rank strong { display: block; font-size: 42px; font-weight: 500; line-height: 1.15; letter-spacing: -.04em; }
+.popular-dish-info { position: relative; margin-top: 12px; }
+.popular-dish-info>.eyebrow { color: var(--red); font-size: 9px; margin-bottom: 8px; }
+.popular-dish-title { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 5px 18px; }
+.popular-dish-title h4 { font: 700 clamp(22px,2.2vw,29px)/1.6 var(--serif); letter-spacing: .025em; }
+.popular-dish-price { font: 500 23px/1.6 var(--serif); letter-spacing: .01em; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.popular-dish-price small { font: 400 10px/1.5 var(--sans); margin-right: 9px; }
+.popular-dish-description { font-size: 12px; line-height: 2; margin-top: 14px; }
+.popular-dish-note { color: var(--muted); font-size: 10px; margin-top: 8px; }
+.popular-dish.is-first { grid-column: 1/-1; display: grid; grid-template-columns: minmax(0,1.4fr) minmax(0,1fr); align-items: center; column-gap: 24px; padding: 26px 38px 26px 20px; background: #e8ddc9; border-bottom: 0; }
+.popular-dish.is-first .popular-dish-visual::before { background: #f2e9d9; }
+.popular-dish.is-first .popular-rank { left: 10px; }
+.popular-dish.is-first .popular-rank strong { font-size: 62px; }
+.popular-dish.is-first .popular-dish-info { margin-top: 0; }
+.popular-dish.is-first .popular-dish-title { display: block; }
+.popular-dish.is-first h4 { font-size: clamp(26px,3vw,40px); margin-bottom: 12px; }
+.popular-dish.is-first .popular-dish-price { font-size: 30px; }
+.popular-dish.is-first .popular-dish-description { max-width: 25em; margin-top: 20px; }
+.popular-menu>.generated-note { margin-top: 22px; }
+.take-home-section { background: var(--paper-light); border-block: 1px solid var(--line); padding-block: 85px; }
+.take-home-list { border-top: 1px solid var(--ink); }
+.take-home-item { display: grid; grid-template-columns: 45px 1fr 1.65fr; align-items: start; gap: 30px; padding-block: 32px; border-bottom: 1px solid var(--line); }
+.take-home-number { color: var(--red); font: 500 22px/1.7 var(--serif); }
+.take-home-item>h3 { font-size: 24px; line-height: 1.7; }
+.take-home-description { font-size: 13px; }
+.frozen-shop-info+.frozen-shop-info { margin-top: 24px; }
+.frozen-shop-info h4 { font-family: var(--serif); font-weight: 600; color: var(--red); font-size: 17px; margin-bottom: 6px; }
+.frozen-shop-info ul { padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 9px; }
+.frozen-shop-info li { font-size: 12px; }
+.frozen-shop-info li::before { content: '・'; color: var(--red); }
+.take-home-note { color: var(--red); margin-top: 10px; font-size: 12px; }
+.delivery-service { display: inline-block; font-size: 17px; font-weight: 600; border-bottom: 1px solid var(--ink); padding-bottom: 4px; margin-top: 12px; letter-spacing: .01em; }
+@media (max-width: 900px) {
+  .popular-menu-heading { align-items: start; gap: 22px; }
+  .popular-menu-list { column-gap: 28px; }
+  .popular-dish.is-first { padding: 22px; column-gap: 16px; grid-template-columns: minmax(0,1.2fr) minmax(0,1fr); }
+  .popular-dish.is-first .popular-rank { left: 0; }
+  .popular-dish.is-first .popular-rank strong { font-size: 48px; }
+  .take-home-item { grid-template-columns: 30px 1fr 1.5fr; gap: 20px; }
+  .take-home-item>h3 { font-size: 22px; }
+}
+@media (max-width: 680px) {
+  .popular-menu { padding-top: 26px; margin-block: 20px 45px; }
+  .popular-menu-heading { display: block; margin-bottom: 25px; }
+  .popular-menu-heading h3 { font-size: clamp(25px,6.6vw,32px); }
+  .popular-menu-heading h3 small { font-size: 11px; }
+  .popular-menu-heading>p { margin-top: 14px; }
+  .popular-menu-list { grid-template-columns: minmax(0,1fr); row-gap: 28px; }
+  .popular-dish { padding-bottom: 25px; }
+  .popular-dish-visual { width: min(100%,480px); margin-inline: auto; }
+  .popular-rank { top: 5px; }
+  .popular-rank strong { font-size: 38px; }
+  .popular-dish-info { margin-top: 6px; }
+  .popular-dish-title h4 { font-size: clamp(22px,5.5vw,28px); }
+  .popular-dish-price { font-size: 23px; }
+  .popular-dish-description { font-size: 11px; margin-top: 12px; }
+  .popular-dish.is-first { display: block; padding: 16px 18px 25px; }
+  .popular-dish.is-first .popular-rank { left: 0; }
+  .popular-dish.is-first .popular-rank strong { font-size: 46px; }
+  .popular-dish.is-first .popular-dish-title { display: flex; }
+  .popular-dish.is-first h4 { font-size: clamp(22px,5.5vw,30px); margin-bottom: 0; }
+  .popular-dish.is-first .popular-dish-price { font-size: 25px; }
+  .popular-dish.is-first .popular-dish-description { margin-top: 12px; }
+  .popular-menu>.generated-note { margin-top: 18px; }
+  .take-home-section { padding-block: 55px; }
+  .take-home-section .section-heading h2 { font-size: 29px; line-height: 1.7; }
+  .take-home-item { grid-template-columns: 25px 1fr; gap: 10px 15px; padding-block: 25px; }
+  .take-home-number { font-size: 18px; }
+  .take-home-item>h3 { font-size: 23px; }
+  .take-home-description { grid-column: 2; font-size: 12px; }
+  .frozen-shop-info h4 { font-size: 16px; }
+  .frozen-shop-info ul { display: block; margin-top: 7px; }
+  .frozen-shop-info li { font-size: 11px; line-height: 1.9; }
+  .take-home-note { font-size: 11px; }
+  .delivery-service { font-size: 16px; }
+}
 
 @media (min-width: 1500px) {
   .signature-bowl { left: calc((100vw - 1450px)/2); width: 1000px; }
@@ -434,7 +517,7 @@ td,thead th:not(:first-child) { text-align: right; font-variant-numeric: tabular
   .store-information dl>div { grid-template-columns: 73px 1fr; gap: 10px; font-size: 11px; }
   .store-interior-section { grid-template-columns: 42% 58%; }
   .store-interior-heading { margin-right: 25px; }
-  .store-interior-heading h2 { font-size: 35px; }
+  .store-interior-heading h2 { font-size: clamp(26px,3.6vw,32px); }
 }
 @media (max-width: 680px) {
   :root { --quick-nav-height: calc(62px + env(safe-area-inset-bottom, 0px)); }
@@ -608,14 +691,9 @@ td,thead th:not(:first-child) { text-align: right; font-variant-numeric: tabular
   .store-intro h2 { font-size: 36px; }
   .store-intro>div+div { padding: 0 0 0 15px; font-size: 12px; }
   .store-menu-section { padding-block: 50px 65px; }
-  .store-signature { display: flex; flex-direction: column; margin-top: 50px; }
-  .store-signature-image { width: 120%; margin: -25px -10% -15px; }
-  .store-signature-copy { align-self: stretch; padding: 10px 25px 30px; }
-  .store-signature-copy h3 { font-size: 32px; }
-  .store-signature-copy>p:last-child { font-size: 12px; }
   .store-interior-section { display: block; padding: 55px 0; }
   .store-interior-heading { margin: 0 22px 32px; }
-  .store-interior-heading h2 { font-size: 35px; }
+  .store-interior-heading h2 { font-size: clamp(28px,7vw,35px); }
   .store-interior-heading p { margin-top: 18px; font-size: 12px; }
   .store-interior-photo { margin: 0 22px; }
   .store-interior-photo.is-portrait img { aspect-ratio: .95; }
