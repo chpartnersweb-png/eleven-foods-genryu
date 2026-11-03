@@ -1,7 +1,7 @@
 ---
 import { getImage } from 'astro:assets';
 import { seo, absoluteUrl, canonicalUrl } from '../config/seo.mjs';
-import { brand, shops, type Shop } from '../data/site';
+import { brand, shops, menuGroups, extras, popularMenus, type Shop } from '../data/site';
 import { images, shopImage } from '../data/images';
 
 interface Props { title: string; description: string; shop?: Shop }
@@ -43,6 +43,41 @@ let graph: Record<string, unknown>[] = [organization, website, webpage];
 
 if (shop && realShopPhoto) {
   const [opens, closes] = shop.hours.split('〜').map(time => time.padStart(5, '0'));
+  const menuUrl = `${canonical}#store-menu`;
+  const servingSizes = ['並盛', '大盛', '特盛'];
+  const menuOffer = (price: number, name?: string) => ({
+    '@type': 'Offer', ...(name ? { name } : {}), price, priceCurrency: 'JPY',
+  });
+  // Menu facts share the visible price table and client-supplied popular dishes.
+  // Generated dish illustrations are deliberately not treated as real product photos.
+  graph.push({
+    '@type': 'Menu', '@id': menuUrl, url: menuUrl,
+    name: `${brand.name} ${shop.name}のお品書き`, inLanguage: seo.language,
+    hasMenuSection: [
+      {
+        '@type': 'MenuSection', name: `${shop.name}の人気メニュー（並盛）`,
+        url: `${canonical}#popular-${shop.slug}`,
+        hasMenuItem: popularMenus[shop.slug].map(item => ({
+          '@type': 'MenuItem', name: item.name, offers: menuOffer(item.price, '並盛'),
+        })),
+      },
+      ...menuGroups.map(group => ({
+        '@type': 'MenuSection', name: group.name,
+        ...('note' in group ? { description: group.note } : {}),
+        hasMenuItem: group.items.map(item => ({
+          '@type': 'MenuItem', name: item.name,
+          offers: item.prices.map((price, index) => menuOffer(price, servingSizes[index])),
+        })),
+      })),
+      {
+        '@type': 'MenuSection', name: 'トッピング・サイド',
+        hasMenuItem: extras.map(item => ({
+          '@type': 'MenuItem', name: item.name, offers: menuOffer(item.price),
+          ...(item.name === '缶ビール' ? { description: 'ラーメンをご注文の方のみご注文いただけます。' } : {}),
+        })),
+      },
+    ],
+  });
   graph.push({
     '@type': 'Restaurant', '@id': `${canonical}#restaurant`,
     name: `${brand.name} ${shop.name}`, url: canonical, description,
@@ -60,7 +95,8 @@ if (shop && realShopPhoto) {
       dayOfWeek: shop.openingDays.map(day => `https://schema.org/${day}`), opens, closes,
     }],
     hasMap: shop.map,
-    hasMenu: `${canonical}#store-menu`,
+    hasMenu: { '@id': menuUrl },
+    menu: menuUrl,
     branchOf: { '@id': organizationId },
   }, {
     '@type': 'BreadcrumbList', '@id': `${canonical}#breadcrumb`,

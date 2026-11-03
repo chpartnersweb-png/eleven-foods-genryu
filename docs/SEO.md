@@ -34,14 +34,19 @@ JSON-LDで次の情報を出力する。
 
 - 共通：Organization、WebSite、WebPage。
 - トップ：2店舗へのリンクを表すItemList。
-- 各店舗：Restaurant、BreadcrumbList。
+- 各店舗：Restaurant、BreadcrumbList、Menu（MenuSection・MenuItem・Offerを含む）。
 
 Restaurantには店舗名、URL、説明、実店舗写真、電話、郵便番号、住所と建物名、営業曜日と営業時間、料理ジャンル、Googleマップ、お品書きへのURL、ブランドとの関係を設定。
 追加のユーザー提供情報に基づき、決済方法は現金・PayPayを構造化データに設定。トップと店舗の説明文にテイクアウト・Uber Eats対応も反映。
+人気メニューの画像追加に合わせ、店舗ページのdescriptionにも特製ラーメン・チャーシューメンと商品イメージ・価格の案内を反映。このdescriptionはOGP・X/TwitterとWebPage・Restaurantの説明にも共通で出力する。
+
+Menuには店舗別の人気メニュー（並盛）と、共通メニューのラーメン・野菜ラーメン・つけ麺・トッピングとサイドを掲載。MenuItemのOfferに価格・JPYと並盛／大盛／特盛の区別を設定する。画面表示と同じ `popularMenus`・`menuGroups`・`extras` を参照し、別の価格を手入力しない。缶ビールの注文条件も画面表示に合わせて記載する。
+Restaurantの `hasMenu` からMenuを参照し、GoogleのLocalBusiness資料に記載される `menu` URLも実際のお品書きセクションへ設定。提供された人気順を口コミ評価や星評価として扱わない。
 西糀谷店は全曜日9:00〜17:00、南品川店は水〜日8:00〜16:00。ラストオーダーを閉店時刻として扱わない。
 営業時間の時刻は `site.ts` の表示データから変換。曜日は `openingDays`、住所の市区は `locality` を使用する。
 
 生成した料理画像を実店舗の写真として構造化データに入れていない。
+今回追加した生成素材もMenuItemの実商品写真として出力していない。画面の代替テキスト・注記で商品イメージであることを明示し、OGPとRestaurantの画像には実店舗写真を継続使用する。
 評価・口コミ・受賞歴・座標・不明な決済ブランド・創業年・価格帯などを推測して追加していない。
 構造化データは検索結果の特別な表示や順位を保証するものではない。
 
@@ -74,3 +79,6 @@ Search Consoleの所有権確認・サイトマップ送信・URL検査・イン
 - Google LocalBusiness：https://developers.google.com/search/docs/appearance/structured-data/local-business
 - Google breadcrumbs：https://developers.google.com/search/docs/appearance/structured-data/breadcrumb
 - Google sitemap：https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap
+- Google構造化データの一般ガイドライン：https://developers.google.com/search/docs/appearance/structured-data/sd-policies
+- Schema.org Menu：https://schema.org/Menu
+- Schema.org MenuItem：https://schema.org/MenuItem
