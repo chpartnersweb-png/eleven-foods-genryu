@@ -6,13 +6,14 @@ import LunchBanner from '../components/LunchBanner.astro';
 import MenuTable from '../components/MenuTable.astro';
 import { images, shopImage } from '../data/images';
 import { shops, yen, featuredPrices } from '../data/site';
+import { seo } from '../config/seo.mjs';
 const dishes = [
   { number: '01', name: 'ラーメン', caption: 'いつもの一杯。', description: '源流の味を、まっすぐに。塩トンコツ醤油のスープを味わう定番の一杯です。', image: images.regular, price: featuredPrices.regular, kind: 'regular' },
   { number: '02', name: '野菜ラーメン', caption: 'しっかり食べたい日に。', description: '野菜も、ラーメンも。ミックス・もやし・ねぎから、お好みの一杯を。', image: images.vegetable, price: featuredPrices.vegetable, kind: 'vegetable' },
   { number: '03', name: '特製つけ麺', caption: '今日は、つけ麺で。', description: '麺と具材を楽しむ、もうひとつの選択。あつ盛・冷や盛をご用意しています。', image: images.tsukemen, price: featuredPrices.tsukemen, kind: 'tsukemen' },
 ];
 ---
-<BaseLayout title="イレブンフーズ源流｜西糀谷・南品川で受け継ぐ、塩トンコツ醤油の一杯" description="初代から50年以上受け継がれてきた、イレブンフーズ源流の味。秘伝の塩トンコツ醤油スープと特製ラーメン。西糀谷店・南品川店のお品書き、営業時間、アクセスをご案内します。">
+<BaseLayout title={seo.homeTitle} description={seo.homeDescription}>
   <section class="hero" aria-labelledby="hero-title">
     <div class="hero-topline"><span>東京・西糀谷／南品川</span><span>一杯に、源流あり。</span></div>
     <div class="hero-heading" data-hero-copy><p>イレブンフーズ源流</p><h1 id="hero-title">受け継ぐ、<span>この一杯。</span></h1></div>

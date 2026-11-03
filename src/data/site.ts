@@ -9,9 +9,10 @@ export const brand = {
 export const shops = [
   {
     slug: 'nishikojiya', name: '西糀谷店', english: 'NISHIKOJIYA', number: '01',
-    postalCode: '144-0034', address: '東京都大田区西糀谷2-26-4', building: '都営ビル104',
+    postalCode: '144-0034', address: '東京都大田区西糀谷2-26-4', building: '都営ビル104', locality: '大田区',
     phone: '03-5737-1191', telephone: '0357371191',
     hours: '9:00〜17:00', lastOrder: '16:30', closed: 'なし',
+    openingDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
     access: ['大鳥居駅より徒歩約10分'],
     seats: '21席（カウンター9席）',
     map: 'https://maps.app.goo.gl/xd5E81rwTem2WnUo8?g_st=ic',
@@ -20,9 +21,10 @@ export const shops = [
   },
   {
     slug: 'minamishinagawa', name: '南品川店', english: 'MINAMISHINAGAWA', number: '02',
-    postalCode: '140-0004', address: '東京都品川区南品川2-15-3', building: 'フラットAI 101',
+    postalCode: '140-0004', address: '東京都品川区南品川2-15-3', building: 'フラットAI 101', locality: '品川区',
     phone: '03-3472-1197', telephone: '0334721197',
     hours: '8:00〜16:00', lastOrder: '15:00', closed: '月曜日・火曜日',
+    openingDays: ['Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
     access: ['新馬場駅より徒歩約4分', '青物横丁駅より徒歩約9分'],
     seats: '15席（カウンター9席・テーブル6席）',
     map: 'https://maps.app.goo.gl/63wEyZ1MT4ZeDXnR8?g_st=ic',

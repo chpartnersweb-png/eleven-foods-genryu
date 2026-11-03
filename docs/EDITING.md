@@ -22,7 +22,10 @@
 | 各店舗ページ共通の構成・支払方法 | `src/pages/shops/[slug].astro` |
 | 全体の配色・レイアウト・画面幅別の調整 | `src/styles/global.css` |
 | GSAP・Lenis・スマートフォンのメニュー | `src/scripts/site.ts` |
-| タイトル・説明・OGP・フォント | `src/layouts/BaseLayout.astro` |
+| 共通の公開URL・トップのタイトルと説明 | `src/config/seo.mjs` |
+| メタタグ・OGP・構造化データ | `src/components/Seo.astro` |
+| 店舗別のタイトルと説明 | `src/pages/shops/[slug].astro` |
+| フォント・共通レイアウト | `src/layouts/BaseLayout.astro` |
 
 トップ・店舗ページの主要商品紹介と価格表は `featuredPrices` を介して共通の価格データを使用します。
 麺増量サービスの時間は案内帯と店舗ページの説明文で `brand.lunch.hours` を共有しています。
@@ -43,6 +46,6 @@
 - `prefers-reduced-motion` でアニメーションとスクロール補間を停止。
 - スマートフォンの固定バーは、トップがメニュー・店舗選択、店舗ページがメニュー・地図・電話。
 - メニューは同一データを両店で使用。電話・地図は該当店舗のものを使用。
-- 確認済みの公開ドメインが未提供のため、正規URLや公開URLを推測して追加していません。
+- 公開URLはユーザー指定の `https://eleven-foods-genryu.pages.dev`。正規URL・OGP・構造化データ・サイトマップをこのドメインに統一しています。設定の詳細と確認範囲は `SEO.md`。
 
 開発サーバーを起動する場合はAGENTS.mdに従い `astro dev --background` を使用し、`astro dev stop` / `status` / `logs` で管理してください。

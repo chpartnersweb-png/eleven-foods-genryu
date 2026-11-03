@@ -1,0 +1,103 @@
+---
+import { getImage } from 'astro:assets';
+import { seo, absoluteUrl, canonicalUrl } from '../config/seo.mjs';
+import { brand, shops, type Shop } from '../data/site';
+import { images, shopImage } from '../data/images';
+
+interface Props { title: string; description: string; shop?: Shop }
+const { title, description, shop } = Astro.props;
+const canonical = canonicalUrl(Astro.url.pathname);
+const home = absoluteUrl('/');
+const organizationId = `${home}#organization`;
+const websiteId = `${home}#website`;
+const pageId = `${canonical}#webpage`;
+
+// Only the supplied logo and real shop photos describe the business in JSON-LD.
+const [logo, realShopPhoto] = await Promise.all([
+  getImage({ src: images.logo, width: images.logo.width, format: 'png' }),
+  shop ? getImage({ src: shopImage(shop.slug), width: 1200, height: 630, fit: 'cover', format: 'jpg', quality: 85 }) : Promise.resolve(null),
+]);
+const socialImage = realShopPhoto ? absoluteUrl(realShopPhoto.src) : absoluteUrl(seo.socialImage);
+const socialAlt = shop
+  ? `イレブンフーズ源流 ${shop.name}${shop.slug === 'nishikojiya' ? 'の外観' : 'の店内'}`
+  : 'イレブンフーズ源流のロゴ';
+
+const organization = {
+  '@type': 'Organization', '@id': organizationId, name: brand.name, url: home,
+  logo: { '@type': 'ImageObject', url: absoluteUrl(logo.src), width: images.logo.width, height: images.logo.height },
+  sameAs: [brand.instagram],
+  subOrganization: shops.map(store => ({ '@id': `${absoluteUrl(`/shops/${store.slug}/`)}#restaurant` })),
+};
+const website = {
+  '@type': 'WebSite', '@id': websiteId, name: brand.name, url: home,
+  inLanguage: seo.language, publisher: { '@id': organizationId },
+};
+const webpage = {
+  '@type': 'WebPage', '@id': pageId, url: canonical, name: title, description,
+  inLanguage: seo.language, isPartOf: { '@id': websiteId },
+  about: { '@id': shop ? `${canonical}#restaurant` : organizationId },
+  mainEntity: { '@id': shop ? `${canonical}#restaurant` : `${canonical}#shops` },
+  ...(shop ? { breadcrumb: { '@id': `${canonical}#breadcrumb` } } : {}),
+};
+let graph: Record<string, unknown>[] = [organization, website, webpage];
+
+if (shop && realShopPhoto) {
+  const [opens, closes] = shop.hours.split('〜').map(time => time.padStart(5, '0'));
+  graph.push({
+    '@type': 'Restaurant', '@id': `${canonical}#restaurant`,
+    name: `${brand.name} ${shop.name}`, url: canonical, description,
+    image: [absoluteUrl(realShopPhoto.src)],
+    telephone: `+81-${shop.phone.slice(1)}`,
+    address: {
+      '@type': 'PostalAddress', postalCode: shop.postalCode, addressCountry: 'JP',
+      addressRegion: '東京都', addressLocality: shop.locality,
+      streetAddress: `${shop.address.replace(`東京都${shop.locality}`, '')} ${shop.building}`,
+    },
+    servesCuisine: ['ラーメン'],
+    openingHoursSpecification: [{
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: shop.openingDays.map(day => `https://schema.org/${day}`), opens, closes,
+    }],
+    hasMap: shop.map,
+    hasMenu: `${canonical}#store-menu`,
+    branchOf: { '@id': organizationId },
+  }, {
+    '@type': 'BreadcrumbList', '@id': `${canonical}#breadcrumb`,
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'ホーム', item: home },
+      { '@type': 'ListItem', position: 2, name: shop.name, item: canonical },
+    ],
+  });
+} else {
+  graph.push({
+    '@type': 'ItemList', '@id': `${canonical}#shops`, name: 'イレブンフーズ源流の店舗',
+    itemListElement: shops.map((store, index) => ({
+      '@type': 'ListItem', position: index + 1, name: `${brand.name} ${store.name}`,
+      url: absoluteUrl(`/shops/${store.slug}/`),
+    })),
+  });
+}
+const jsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replace(/</g, '\\u003c');
+---
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<link rel="canonical" href={canonical} />
+<link rel="sitemap" type="application/xml" href={absoluteUrl('/sitemap.xml')} />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:site_name" content={seo.siteName} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={socialImage} />
+<meta property="og:image:secure_url" content={socialImage} />
+<meta property="og:image:alt" content={socialAlt} />
+<meta property="og:image:type" content={realShopPhoto ? 'image/jpeg' : 'image/png'} />
+{realShopPhoto && <><meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" /></>}
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={socialImage} />
+<meta name="twitter:image:alt" content={socialAlt} />
+<script type="application/ld+json" set:html={jsonLd} />

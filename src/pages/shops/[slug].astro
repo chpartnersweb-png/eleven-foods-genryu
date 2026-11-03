@@ -13,8 +13,12 @@ const { shop } = Astro.props;
 const otherShop = shops.find(store => store.slug !== shop.slug)!;
 const isNishikojiya = shop.slug === 'nishikojiya';
 const interior = isNishikojiya ? images.nishikojiyaInterior : images.minamishinagawaInterior;
+const pageTitle = isNishikojiya
+  ? 'イレブンフーズ源流 西糀谷店｜大鳥居のラーメン・お品書き'
+  : 'イレブンフーズ源流 南品川店｜新馬場・青物横丁のラーメン';
+const pageDescription = `${brand.name} ${shop.name}。${shop.access.join('、')}。秘伝の塩トンコツ醤油ラーメンのお品書き・アクセスをご案内。営業時間${shop.hours}、L.O. ${shop.lastOrder}。定休日：${shop.closed}。平日${brand.lunch.hours}は麺増量無料。`;
 ---
-<BaseLayout title={`イレブンフーズ源流 ${shop.name}｜お品書き・営業時間・アクセス`} description={`イレブンフーズ源流 ${shop.name}の店舗案内。${shop.access.join('、')}。営業時間${shop.hours}、L.O. ${shop.lastOrder}。定休日：${shop.closed}。塩トンコツ醤油のラーメンと平日${brand.lunch.hours}の麺増量無料サービスをご案内。`} shop={shop}>
+<BaseLayout title={pageTitle} description={pageDescription} shop={shop}>
   <section class="store-hero" aria-labelledby="store-title"><div class="store-hero-photo"><Image src={shopImage(shop.slug)} alt={isNishikojiya ? `${shop.name}の入口と看板` : `${shop.name}のカウンターと赤い椅子`} widths={[640, 1000, 1500]} sizes="100vw" format="webp" loading="eager" fetchpriority="high" /></div><div class="store-hero-overlay"></div><div class="store-hero-content section-wrap"><p class="breadcrumb"><a href="/">ホーム</a><span>/</span><span>{shop.name}</span></p><span class="eyebrow">GENRYU / {shop.english}</span><h1 id="store-title"><small>イレブンフーズ源流</small>{shop.name}</h1><p>{shop.access.join(' ／ ')}</p></div><span class="store-hero-caption">{shop.name} {isNishikojiya ? '外観' : '店内'}</span></section>
   <div class="store-facts-band"><div><span>営業時間</span><strong>{shop.hours}</strong><small>L.O. {shop.lastOrder}</small></div><div><span>定休日</span><strong>{shop.closed}</strong></div><a href={shop.map} target="_blank" rel="noopener noreferrer"><Icon name="pin" />Googleマップで見る<Icon name="arrow" /></a></div>
   <section class="store-intro section-wrap" aria-labelledby="store-intro-title"><div data-reveal><span class="eyebrow">WELCOME TO {shop.english}</span><h2 id="store-intro-title">今日の一杯は、<br />源流で。</h2></div><div data-reveal><p>初代から50年以上受け継がれてきた、<br />秘伝の「塩トンコツ醤油」。</p><p>ひとりでふらりと、家族と一緒に。<br />{shop.name}で、お待ちしています。</p><a class="text-link" href="/#history">源流の歩みを読む<Icon name="arrow" /></a></div></section>
