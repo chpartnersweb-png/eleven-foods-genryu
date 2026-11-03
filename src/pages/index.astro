@@ -1,16 +1,54 @@
 ---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import LunchBanner from '../components/LunchBanner.astro';
+import MenuTable from '../components/MenuTable.astro';
+import { images, shopImage } from '../data/images';
+import { shops, yen, featuredPrices } from '../data/site';
+const dishes = [
+  { number: '01', name: 'ラーメン', caption: 'いつもの一杯。', description: '源流の味を、まっすぐに。塩トンコツ醤油のスープを味わう定番の一杯です。', image: images.regular, price: featuredPrices.regular, kind: 'regular' },
+  { number: '02', name: '野菜ラーメン', caption: 'しっかり食べたい日に。', description: '野菜も、ラーメンも。ミックス・もやし・ねぎから、お好みの一杯を。', image: images.vegetable, price: featuredPrices.vegetable, kind: 'vegetable' },
+  { number: '03', name: '特製つけ麺', caption: '今日は、つけ麺で。', description: '麺と具材を楽しむ、もうひとつの選択。あつ盛・冷や盛をご用意しています。', image: images.tsukemen, price: featuredPrices.tsukemen, kind: 'tsukemen' },
+];
 ---
-
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title="イレブンフーズ源流｜西糀谷・南品川で受け継ぐ、塩トンコツ醤油の一杯" description="初代から50年以上受け継がれてきた、イレブンフーズ源流の味。秘伝の塩トンコツ醤油スープと特製ラーメン。西糀谷店・南品川店のお品書き、営業時間、アクセスをご案内します。">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-topline"><span>東京・西糀谷／南品川</span><span>一杯に、源流あり。</span></div>
+    <div class="hero-heading" data-hero-copy><p>イレブンフーズ源流</p><h1 id="hero-title">受け継ぐ、<span>この一杯。</span></h1></div>
+    <div class="hero-watermark" aria-hidden="true">源流</div>
+    <div class="hero-bowl" data-hero-image><Image src={images.special} alt="特製ラーメンをもとにしたヒーロービジュアル" widths={[640, 1000, 1400, 1600]} sizes="(max-width: 680px) 125vw, (max-width: 1100px) 88vw, 1000px" format="webp" loading="eager" fetchpriority="high" /></div>
+    <p class="hero-side-copy" data-hero-copy>秘伝の<br /><strong>塩トンコツ醤油</strong></p>
+    <div class="heritage-seal" data-hero-copy><span>初代から</span><strong>五十余年</strong><span>受け継ぐ味</span></div>
+    <div class="hero-bottom"><a href="#menu" class="hero-menu-link">お品書きを見る<Icon name="arrow" /></a><span class="hero-image-note">料理ビジュアルは実商品写真をもとにしたイメージです。</span><a class="scroll-cue" href="#welcome" aria-label="下へスクロール"><span>SCROLL</span><i></i></a></div>
+  </section>
+  <div class="store-ribbon" id="welcome"><span class="ribbon-label">お近くの源流へ。</span>{shops.map(shop => <a href={`/shops/${shop.slug}/`}><strong>{shop.name}</strong><span>{shop.hours}</span><Icon name="arrow" /></a>)}</div>
+  <section class="intro-section section-wrap" id="about" aria-labelledby="about-title">
+    <div class="intro-head" data-reveal><span class="eyebrow">THE TASTE OF GENRYU</span><h2 id="about-title">ふと、食べたくなる。<br />また、帰ってきたくなる。</h2></div>
+    <div class="intro-body" data-reveal><p>ひとりでふらりと。家族と一緒に。<br />さっと食べたい日も、しっかり食べたい日も。</p><p>初代から50年以上受け継がれてきた、<br />秘伝の「塩トンコツ醤油」。<br />長年親しまれてきた一杯を、今日も。</p><a class="text-link" href="#history">源流の歩み<Icon name="arrow" /></a></div><span class="intro-mark" aria-hidden="true">一杯入魂</span>
+  </section>
+  <section class="signature-section" aria-labelledby="signature-title">
+    <div class="signature-heading section-wrap" data-reveal><div><span class="eyebrow">OUR SIGNATURE</span><h2 id="signature-title">まずは、<br /><span>この一杯。</span></h2></div><p>受け継がれてきた味を、<br />ひとつの丼に。</p></div>
+    <div class="signature-display"><div class="signature-disc" aria-hidden="true"></div><span class="signature-large-type" aria-hidden="true">特製</span><div class="signature-bowl" data-parallax="-28"><Image src={images.special} alt="特製ラーメンのイメージ。のり・味付玉子・メンマなどをのせた一杯" widths={[600, 960, 1400]} sizes="(max-width: 680px) 110vw, 75vw" format="webp" loading="lazy" /></div><div class="signature-ticket" data-reveal><span>源流の看板メニュー</span><h3>特製ラーメン</h3><p class="dish-price"><small>並盛</small>{yen(featuredPrices.special)}</p><p class="ticket-description">迷ったら、まずはこちら。<br />当店自慢の特製ラーメンを<br />お楽しみください。</p><a href="#menu" aria-label="お品書きを見る"><Icon name="arrow" /></a></div></div>
+    <div class="ingredients section-wrap"><div class="ingredients-intro" data-reveal><span class="eyebrow">A CLOSER LOOK</span><h3>おいしさを、<br />もう少し近くで。</h3><p>スープも、具材も。<br />ひと口ごとに広がる、源流の味。</p></div>
+      <figure class="ingredient ingredient-pork" data-reveal><Image src={images.pork} alt="提供写真に写るチャーシューとスープの接写" width={480} height={480} fit="cover" format="webp" loading="lazy" /><figcaption><span>01</span>チャーシュー</figcaption></figure>
+      <figure class="ingredient ingredient-egg" data-reveal><Image src={images.egg} alt="提供写真に写る味付玉子の接写" width={480} height={480} fit="cover" format="webp" loading="lazy" /><figcaption><span>02</span>味付玉子</figcaption></figure>
+      <figure class="ingredient ingredient-menma" data-reveal><Image src={images.menma} alt="提供写真に写るメンマの接写" width={480} height={480} fit="cover" format="webp" loading="lazy" /><figcaption><span>03</span>メンマ</figcaption></figure>
+    </div>
+  </section>
+  <section class="menu-section section-wrap" id="menu" aria-labelledby="menu-title">
+    <div class="section-heading" data-reveal><div><span class="eyebrow">MENU</span><h2 id="menu-title">今日は、どの一杯に。</h2></div><p>西糀谷店・南品川店 共通のお品書き</p></div>
+    <div class="dish-collection">{dishes.map(dish => <article class:list={['dish', `dish-${dish.kind}`]} data-reveal><div class="dish-visual"><span class="dish-number" aria-hidden="true">{dish.number}</span><Image src={dish.image} alt={`${dish.name}の商品イメージ${dish.kind === 'tsukemen' ? '（写真は麺の器です）' : ''}`} widths={[480, 720, 1000]} sizes="(max-width: 680px) 100vw, (max-width: 1000px) 50vw, 33vw" format="webp" loading="lazy" /></div><div class="dish-copy"><p class="dish-caption">{dish.caption}</p><h3>{dish.name}</h3><p class="dish-price"><small>並盛</small>{yen(dish.price)}</p><p class="dish-description">{dish.description}</p>{dish.kind === 'tsukemen' && <p class="dish-image-note">※写真は麺の器のイメージです。</p>}</div></article>)}</div>
+    <p class="generated-note">※切り抜きの料理ビジュアルは実商品写真をもとにしたイメージです。</p><LunchBanner /><MenuTable />
+  </section>
+  <section class="history-section" id="history" aria-labelledby="history-title"><div class="history-inner section-wrap">
+    <div class="history-heading" data-reveal><span class="eyebrow">OUR STORY</span><h2 id="history-title">時を重ねても、<br />この味を。</h2><p class="history-label">源流の歩み</p></div>
+    <div class="history-content" data-reveal><p class="history-lead">一杯のラーメンに、<br />受け継がれてきた時間がある。</p><p>初代から50年以上。イレブンフーズ源流は、<br class="desktop-break" />秘伝の「塩トンコツ醤油」スープを大切に、<br class="desktop-break" />長年親しまれてきた味を届けてきました。</p><p>西糀谷、そして南品川。<br />二つの街で、今日も変わらず一杯を。</p><ol class="history-timeline"><li><span class="timeline-year">五十余年</span><div><h3>初代から受け継ぐ味</h3><p>源流の原点となる、秘伝のスープ。</p></div></li><li><span class="timeline-year">2003</span><div><h3>西糀谷店オープン</h3><p>大田区西糀谷に、源流の一杯を。</p></div></li><li><span class="timeline-year">2014</span><div><h3>南品川店オープン</h3><p>品川の街でも、受け継ぐ味を。</p></div></li></ol></div>
+    <Image class="history-logo" src={images.logo} width={230} height={230} alt="" loading="lazy" />
+  </div></section>
+  <section class="scene-section" aria-labelledby="scene-title"><div class="scene-photo"><Image src={images.nishikojiyaInterior} alt="西糀谷店の木のカウンターと赤い椅子" widths={[600, 1000, 1400]} sizes="(max-width: 680px) 100vw, 58vw" format="webp" loading="lazy" /></div><div class="scene-copy" data-reveal><span class="eyebrow">YOUR EVERYDAY RAMEN</span><h2 id="scene-title">いつもの街で、<br />お腹も、心も。</h2><p>ひとりの時間にも。家族のお食事にも。<br />気取らず、気軽に、源流へ。</p><ul><li>ひとりでふらりと</li><li>さっと食べたい日に</li><li>しっかり食べたい日に</li><li>家族のお食事に</li></ul><p class="scene-photo-caption">写真：西糀谷店</p></div></section>
+  <section class="shops-section section-wrap" id="shops" aria-labelledby="shops-title"><div class="section-heading" data-reveal><div><span class="eyebrow">OUR SHOPS</span><h2 id="shops-title">お近くの源流で、<br class="mobile-break" />お待ちしています。</h2></div><p>東京・西糀谷／南品川</p></div>
+    <div class="shop-list">{shops.map(shop => <article class={`shop-entry shop-entry-${shop.slug}`} data-reveal><a class="shop-entry-photo" href={`/shops/${shop.slug}/`} aria-label={`${shop.name}の店舗情報を見る`}><Image src={shopImage(shop.slug)} alt={shop.slug === 'nishikojiya' ? '西糀谷店の外観' : '南品川店の店内'} widths={[540, 800, 1100]} sizes="(max-width: 680px) 100vw, 50vw" format="webp" loading="lazy" /><span>{shop.slug === 'nishikojiya' ? '西糀谷店 外観' : '南品川店 店内'}</span></a><div class="shop-entry-info"><span class="eyebrow">{shop.number} / {shop.english}</span><a class="shop-name-link" href={`/shops/${shop.slug}/`}><h3>{shop.name}</h3><span class="round-arrow"><Icon name="arrow" /></span></a><p class="shop-access">{shop.access.join(' ／ ')}</p><dl><div><dt>営業時間</dt><dd>{shop.hours}<small>（L.O. {shop.lastOrder}）</small></dd></div><div><dt>定休日</dt><dd>{shop.closed}</dd></div></dl><a class="text-link" href={`/shops/${shop.slug}/`}>店舗情報・アクセス<Icon name="arrow" /></a></div></article>)}</div>
+    <p class="parking-note"><Icon name="pin" />両店舗とも提携駐車場はございません。お近くの有料駐車場をご利用ください。</p>
+  </section>
+</BaseLayout>

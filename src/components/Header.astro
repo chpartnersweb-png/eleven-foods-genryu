@@ -1,0 +1,27 @@
+---
+import { Image } from 'astro:assets';
+import { images } from '../data/images';
+import { brand } from '../data/site';
+import Icon from './Icon.astro';
+const links = [ { href: '/#about', label: '源流の味' }, { href: '/#menu', label: 'お品書き' },
+  { href: '/#history', label: '源流の歩み' }, { href: '/#shops', label: '店舗のご案内' } ];
+---
+<header class="site-header">
+  <a class="brand" href="/" aria-label="イレブンフーズ源流 トップへ">
+    <Image src={images.logo} width={64} height={64} alt="" loading="eager" />
+    <span class="brand-name"><span>イレブンフーズ</span><strong>源流</strong></span>
+  </a>
+  <nav class="desktop-nav" aria-label="メインナビゲーション">
+    {links.map(link => <a href={link.href}>{link.label}</a>)}
+  </nav>
+  <div class="header-actions">
+    <a class="instagram-link" href={brand.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram（新しいタブで開きます）"><Icon name="instagram" /></a>
+    <a class="header-shop-link" href="/#shops">お店へ行く<Icon name="arrow" /></a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="メニューを開く"><span></span><span></span></button>
+  </div>
+</header>
+<nav id="mobile-nav" class="mobile-nav" aria-label="モバイルナビゲーション" hidden>
+  <span class="mobile-nav-caption">イレブンフーズ源流</span>
+  {links.map((link, index) => <a href={link.href}><span class="nav-number">0{index + 1}</span>{link.label}<Icon name="arrow" /></a>)}
+  <a class="mobile-social" href={brand.instagram} target="_blank" rel="noopener noreferrer"><Icon name="instagram" />{brand.instagramHandle}</a>
+</nav>

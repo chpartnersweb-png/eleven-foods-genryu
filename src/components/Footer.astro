@@ -1,0 +1,28 @@
+---
+import { Image } from 'astro:assets';
+import { images } from '../data/images';
+import { brand, shops, type Shop } from '../data/site';
+import Icon from './Icon.astro';
+interface Props { shop?: Shop }
+const { shop } = Astro.props;
+---
+<section class="social-section">
+  <div class="social-section-inner">
+    <div><span class="eyebrow">INSTAGRAM</span><h2>お店のいまを、こちらから。</h2></div>
+    <a href={brand.instagram} target="_blank" rel="noopener noreferrer"><Icon name="instagram" /><span>{brand.instagramHandle}</span><Icon name="arrow" /></a>
+  </div>
+</section>
+<footer class="site-footer">
+  <div class="footer-top">
+    <a class="footer-brand" href="/" aria-label="イレブンフーズ源流 トップへ"><Image src={images.logo} width={106} height={106} alt="イレブンフーズ源流" /><span>受け継ぐ一杯を、<br />今日の一杯に。</span></a>
+    <div class="footer-shops">{shops.map(store => <div><a class="footer-shop-name" href={`/shops/${store.slug}/`}>{store.name}<Icon name="arrow" /></a><p>{store.hours} <span>／ L.O. {store.lastOrder}</span></p><p>定休日：{store.closed}</p><a class="footer-phone" href={`tel:${store.telephone}`}>{store.phone}</a></div>)}</div>
+  </div>
+  <div class="footer-bottom"><p>© {new Date().getFullYear()} ELEVEN FOODS GENRYU</p><a href="#top">ページの先頭へ<span aria-hidden="true">↑</span></a></div>
+</footer>
+<nav class="quick-nav" aria-label={shop ? `${shop.name} 来店のご案内` : 'すぐに見る'}>
+  {shop ? <>
+    <a href="#store-menu">お品書き</a>
+    <a href={shop.map} target="_blank" rel="noopener noreferrer"><Icon name="pin" />地図</a>
+    <a href={`tel:${shop.telephone}`}><Icon name="phone" /><span>{shop.name}へ電話</span></a>
+  </> : <><a href="#menu">お品書き</a><a href="#shops"><Icon name="pin" />店舗を選ぶ<Icon name="arrow" /></a></>}
+</nav>

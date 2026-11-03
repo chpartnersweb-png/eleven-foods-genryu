@@ -1,0 +1,22 @@
+---
+import { menuGroups, extras, yen } from '../data/site';
+interface Props { id?: string; expanded?: boolean }
+const { id = 'full-menu', expanded = false } = Astro.props;
+---
+<details class="full-menu" id={id} open={expanded}>
+  <summary><span><small>MENU LIST</small>すべてのお品書き</span><span class="details-icon" aria-hidden="true"></span></summary>
+  <div class="menu-table-content">
+    <p class="menu-table-intro">西糀谷店・南品川店 共通メニュー</p>
+    {menuGroups.map(group => <div class="menu-table-group">
+      <h3>{group.name}</h3>
+      {'note' in group && <p class="menu-group-note">{group.note}</p>}
+      <div class="table-scroll" data-lenis-prevent-horizontal role="region" tabindex="0" aria-label={`${group.name}の価格表`}>
+        <table><caption class="sr-only">{group.name}の並盛・大盛・特盛の価格</caption><thead><tr><th scope="col">品名</th><th scope="col">並盛</th><th scope="col">大盛</th><th scope="col">特盛</th></tr></thead>
+          <tbody>{group.items.map(item => <tr class:list={[item.name === '特製ラーメン' && 'signature-row']}><th scope="row">{item.name}</th>{item.prices.map(price => <td>{yen(price)}</td>)}</tr>)}</tbody>
+        </table>
+      </div>
+    </div>)}
+    <div class="extras-group"><h3>トッピング・サイド</h3><dl>{extras.map(item => <div><dt>{item.name}</dt><dd>{yen(item.price)}</dd></div>)}</dl><p class="menu-group-note">※缶ビールはラーメンをご注文の方のみご注文いただけます。</p></div>
+    <p class="menu-footnote">※メニュー・価格は変更となる場合がございます。</p>
+  </div>
+</details>
